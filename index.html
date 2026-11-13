@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>हमारा गाँव 🏡</title>
+<meta name="theme-color" content="#5b3ae0">
+<meta name="description" content="सब मिलकर एक गाँव बनाते हैं। रोज़ 3 काम: पेड़ लगाइए, घर बनाइए, पेड़ बचाइए।">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --base:#161238; --glass:rgba(255,255,255,.12); --glass2:rgba(24,20,66,.74); --line:rgba(255,255,255,.2);
+  --mag:#c23cff; --cyan:#19e3e0; --vio:#6a3df0; --ink:#f6f3ff; --mute:#d4cef5; --gold:#ffd24a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--base)}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Mukta","Noto Sans Devanagari",system-ui,sans-serif;font-size:16px;line-height:1.4;text-align:center;padding-bottom:calc(28px + env(safe-area-inset-bottom,0px));
+  background:radial-gradient(circle at 88% 100%,rgba(25,227,224,.45),transparent 48%),linear-gradient(135deg,#b02ff0 0%,#5b3ae0 40%,#2a2fa8 72%,#1b5fc4 100%);background-attachment:fixed}
+header{padding:18px 12px 6px}
+h1{margin:0;font-family:"Baloo 2","Noto Sans Devanagari",sans-serif;font-weight:800;font-size:2.3rem;line-height:1.1;text-shadow:0 0 22px rgba(194,60,255,.8)}
+.sub{margin:4px 0 10px;font-size:1rem;color:var(--mute)}
+.chips,.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.chips span,.stats span{padding:3px 13px;border-radius:99px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:.9rem}
+.stats{margin:10px 0 2px}
+.stats b{font-weight:700;color:var(--cyan)}
+#left{margin:8px 0 10px;font-weight:700}
+#left span{display:inline-block;min-width:1.7em;padding:0 8px;border-radius:99px;background:var(--gold);color:#2b1c00;box-shadow:0 0 14px rgba(255,210,74,.6)}
+#tools{display:flex;gap:8px;justify-content:center;padding:0 10px;margin-bottom:12px}
+.tool{flex:1;max-width:98px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:16px;padding:8px 4px;font:inherit;font-size:.85rem;color:var(--ink);cursor:pointer}
+.tool .e{display:block;font-size:1.5rem;line-height:1.2}
+.tool.on{border-color:var(--cyan);background:rgba(25,227,224,.2);box-shadow:0 0 16px rgba(25,227,224,.5)}
+.tool:focus-visible,.c:focus-visible,#share:focus-visible,#go:focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+#wrap{max-width:560px;margin:0 auto;padding:0 10px}
+#wrap>div{padding:8px;border-radius:22px;background:var(--glass2);border:1px solid var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 24px 50px rgba(10,5,50,.5)}
+#grid{display:grid;grid-template-columns:repeat(16,1fr);border-radius:14px;overflow:hidden;background:#1d2660}
+.c{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:clamp(11px,3.5vw,21px);line-height:1;cursor:pointer;user-select:none;padding:0;border:0;color:inherit;text-shadow:0 0 8px rgba(25,227,224,.6)}
+.c.a{background:#27316e} .c.b{background:#212a64}
+@media (hover:hover){.c:hover{background:#3a46a0}}
+.c.sukha{filter:saturate(.5) brightness(.9)}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:rgba(20,16,56,.94);border:1px solid var(--line);color:#fff;padding:10px 16px;border-radius:14px;max-width:90vw;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:5}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#share,#go{font:inherit;font-weight:700;border:0;background:linear-gradient(90deg,var(--cyan),var(--mag));color:#120c36;padding:11px 22px;border-radius:99px;cursor:pointer;box-shadow:0 0 20px rgba(194,60,255,.5)}
+#share{margin-top:16px}
+.hint{margin:14px auto 0;max-width:36ch;padding:8px 14px;border-radius:14px;background:var(--glass2);font-size:.88rem;color:var(--mute)}
+#ov{position:fixed;inset:0;background:rgba(10,6,40,.72);display:none;align-items:center;justify-content:center;z-index:9;padding:20px}
+#ov.show{display:flex}
+#ov div{background:#1d1850;border:1px solid var(--line);border-radius:20px;padding:22px;max-width:340px;width:100%;box-shadow:0 0 40px rgba(194,60,255,.4)}
+#ov h2{margin:0 0 6px;font-family:"Baloo 2",sans-serif;font-weight:800;font-size:1.45rem}
+#ov p{margin:0 0 12px;color:var(--mute)}
+#nm{width:100%;font:inherit;font-size:1.05rem;padding:10px 12px;border:1px solid var(--line);border-radius:12px;margin-bottom:14px;background:rgba(255,255,255,.1);color:#fff}
+#nm::placeholder{color:#b3acdd}
+@media (prefers-reduced-motion:reduce){#toast{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>हमारा गाँव</h1>
+  <p class="sub">सब मिलकर एक गाँव बना रहे हैं</p>
+  <div class="chips"><span>रोज़ 3 काम</span><span>मिलकर गाँव</span><span>बिना लॉगिन</span></div>
+  <div class="stats" id="stats" aria-live="polite"></div>
+</header>
+
+<div id="left">आज के काम बचे: <span id="n">3</span></div>
+<div id="tools" role="group" aria-label="औज़ार">
+  <button class="tool on" data-t="ped"><span class="e">🌳</span>पेड़</button>
+  <button class="tool" data-t="ghar"><span class="e">🏠</span>घर</button>
+  <button class="tool" data-t="kuan"><span class="e">⛲</span>कुआँ</button>
+  <button class="tool" data-t="paani"><span class="e">💧</span>पानी दें</button>
+</div>
+
+<div id="wrap"><div id="grid" role="grid" aria-label="गाँव का नक्शा"></div></div>
+<button id="share">दोस्तों को गाँव में बुलाइए</button>
+<p class="hint">पेड़ को 3 दिन पानी न मिले तो वह सूख जाता है 🥀। किसी का भी पेड़ सींचकर उसे बचा सकते हैं।</p>
+<div id="toast" role="status"></div>
+
+<div id="ov">
+  <div>
+    <h2>गाँव में आपका स्वागत है 🏡</h2>
+    <p>आपका नाम क्या लिखें? यही नाम आपके पेड़ और घर पर दिखेगा।</p>
+    <input id="nm" maxlength="16" placeholder="आपका नाम" autocomplete="off">
+    <button id="go">गाँव में आइए</button>
+  </div>
+</div>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getDatabase,ref,onValue,runTransaction} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAvwXy4KJSPsI1Cww_tt3sWcXeUxuO4E2w",
+  authDomain: "hamara-gaon-ec1d9.firebaseapp.com",
+  // अगर आपके डेटाबेस का लिंक अलग है, तो सिर्फ़ यह लाइन बदलें:
+  databaseURL: "https://hamara-gaon-ec1d9-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "hamara-gaon-ec1d9",
+  storageBucket: "hamara-gaon-ec1d9.firebasestorage.app",
+  messagingSenderId: "579247982596",
+  appId: "1:579247982596:web:a3b43252564b41688d0d51"
+};
+
+const N = 16, DAY = 864e5, DRY = 3 * DAY, DEAD = 7 * DAY, PER_DAY = 3;
+const NAMES = {ped: "पेड़", ghar: "घर", kuan: "कुआँ"};
+const ICON = {ped: "🌳", ghar: "🏠", kuan: "⛲"};
+const $ = id => document.getElementById(id);
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+let uid = null, tiles = {}, tool = "ped";
+let name = "";
+try { name = localStorage.getItem("gaon_name") || ""; } catch (e) {}
+
+const today = () => new Date().toDateString();
+function used() {
+  try { const d = JSON.parse(localStorage.getItem("gaon_day") || "{}"); return d.d === today() ? d.n : 0; }
+  catch (e) { return 0; }
+}
+function setUsed(n) { try { localStorage.setItem("gaon_day", JSON.stringify({d: today(), n})); } catch (e) {} }
+function showLeft() { $("n").textContent = Math.max(0, PER_DAY - used()); }
+
+let tt;
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+const alive = v => !!v && !(v.t === "ped" && Date.now() - v.w > DEAD);
+
+// ग्रिड एक बार बनाते हैं
+const grid = $("grid");
+const cells = [];
+for (let r = 0; r < N; r++) for (let c = 0; c < N; c++) {
+  const b = document.createElement("button");
+  b.className = "c " + ((r + c) % 2 ? "a" : "b");
+  b.setAttribute("aria-label", "खाली ज़मीन");
+  b.onclick = () => act(r, c);
+  grid.appendChild(b); cells.push(b);
+}
+
+function render() {
+  let trees = 0, houses = 0, wells = 0; const people = new Set();
+  cells.forEach((b, i) => {
+    const id = Math.floor(i / N) + "_" + (i % N), v = tiles[id];
+    b.classList.remove("sukha");
+    if (!alive(v)) { b.textContent = ""; b.setAttribute("aria-label", "खाली ज़मीन"); return; }
+    people.add(v.o);
+    if (v.t === "ped") {
+      trees++;
+      const dry = Date.now() - v.w > DRY;
+      b.textContent = dry ? "🥀" : "🌳";
+      if (dry) b.classList.add("sukha");
+      b.setAttribute("aria-label", v.n + " का " + (dry ? "सूखता पेड़" : "पेड़"));
+    } else {
+      if (v.t === "ghar") houses++; else wells++;
+      b.textContent = ICON[v.t];
+      b.setAttribute("aria-label", v.n + " का " + NAMES[v.t]);
+    }
+  });
+  $("stats").innerHTML = "";
+  [["🌳", trees], ["🏠", houses], ["⛲", wells], ["👥", people.size]].forEach(([e, n]) => {
+    const s = document.createElement("span"); s.innerHTML = e + " <b></b>"; s.querySelector("b").textContent = n;
+    $("stats").appendChild(s);
+  });
+}
+
+async function act(r, c) {
+  if (!uid) { toast("गाँव से जुड़ रहे हैं… ज़रा रुकिए"); return; }
+  const id = r + "_" + c, cur = tiles[id], now = Date.now();
+  if (tool !== "paani" && alive(cur)) { toast(cur.n + " का " + NAMES[cur.t]); return; }
+  if (tool === "paani" && !(alive(cur) && cur.t === "ped")) { toast("पानी सिर्फ़ किसी पेड़ को दें 🌳"); return; }
+  if (used() >= PER_DAY) { toast("आज के 3 काम पूरे हुए। कल फिर आइए 🌅"); return; }
+  try {
+    const res = await runTransaction(ref(db, "tiles/" + id), v => {
+      if (tool === "paani") return (v && v.t === "ped" && alive(v)) ? {...v, w: now} : undefined;
+      if (v && alive(v)) return undefined;
+      return {t: tool, o: uid, n: name, w: now};
+    });
+    if (!res.committed) { toast("यह जगह अभी किसी और ने ले ली"); return; }
+    setUsed(used() + 1); showLeft();
+    if (tool === "paani") toast(cur.o === uid ? "आपने अपना पेड़ सींचा 💧" : cur.n + " का पेड़ आपने बचा लिया 💧");
+    else toast(NAMES[tool] + " बन गया! " + ICON[tool]);
+  } catch (e) { toast("कुछ गड़बड़ हुई: " + (e.code || e.message)); }
+}
+
+document.querySelectorAll(".tool").forEach(b => b.onclick = () => {
+  tool = b.dataset.t;
+  document.querySelectorAll(".tool").forEach(x => x.classList.toggle("on", x === b));
+});
+
+$("share").onclick = async () => {
+  const text = "मैं \"हमारा गाँव\" में पेड़ लगा रहा हूँ 🌳 आप भी आइए, मिलकर गाँव बनाते हैं!";
+  const url = location.href;
+  try {
+    if (navigator.share) await navigator.share({title: "हमारा गाँव", text, url});
+    else { await navigator.clipboard.writeText(text + " " + url); toast("लिंक कॉपी हो गया ✅"); }
+  } catch (e) {}
+};
+
+function askName() {
+  $("ov").classList.add("show");
+  $("go").onclick = () => {
+    const v = $("nm").value.trim().slice(0, 16);
+    if (!v) { $("nm").focus(); return; }
+    name = v; try { localStorage.setItem("gaon_name", v); } catch (e) {}
+    $("ov").classList.remove("show");
+  };
+}
+
+showLeft();
+if (!name) askName();
+
+signInAnonymously(auth).then(u => {
+  uid = u.user.uid;
+  onValue(ref(db, "tiles"), s => { tiles = s.val() || {}; render(); },
+    e => toast("डेटाबेस नहीं खुला: " + (e.code || e.message)));
+}).catch(e => toast("कनेक्शन की दिक्कत: " + (e.code || e.message)));
+
+setInterval(render, 60000);
+render();
+</script>
+</body>
+</html>
